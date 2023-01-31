@@ -1,5 +1,4 @@
 import random
-import math
 
 def gcd(a, b):
     while b != 0:
@@ -22,13 +21,7 @@ def find_private_key(e, phi):
         k += 1
         
 def modular_exp(base, exponent, modulus):
-    result = 1
-    base %= modulus
-    while exponent > 0:
-        if exponent % 2 == 1:
-            result = (result * base) % modulus
-        exponent = exponent >> 1
-        base = (base * base) % modulus
+    result = (base**exponent)%modulus
     return result
 
 def rsa_encrypt(plaintext, e, n):
@@ -43,21 +36,18 @@ def rsa_decrypt(ciphertext, d, n):
         plaintext.append(chr(modular_exp(symbol, d, n)))
     return ''.join(plaintext)
 
-def main():
-    p = 11
-    q = 13
-    n = p * q
-    phi = (p - 1) * (q - 1)
 
-    e = find_coprime(phi)
-    d = find_private_key(e, phi)
+p = 11
+q = 13
+n = p * q
+phi = (p - 1) * (q - 1)
 
-    plaintext = input("Enter Plaintext: ")
-    ciphertext = rsa_encrypt(plaintext, e, n)
+e = find_coprime(phi)
+d = find_private_key(e, phi)
 
-    print(f'Plaintext: {plaintext}')
-    print(f'Ciphertext: {ciphertext}')
-    print(f'Decrypted message: {rsa_decrypt(ciphertext, d, n)}')
+plaintext = input("Enter Plaintext: ")
+ciphertext = rsa_encrypt(plaintext, e, n)
 
-if __name__ == '__main__':
-    main()
+print(f'Plaintext: {plaintext}')
+print(f'Ciphertext: {ciphertext}')
+print(f'Decrypted message: {rsa_decrypt(ciphertext, d, n)}')
