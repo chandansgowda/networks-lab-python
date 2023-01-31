@@ -20,6 +20,16 @@ def find_private_key(e, phi):
         if d.is_integer():
             return int(d)
         k += 1
+        
+def modular_exp(base, exponent, modulus):
+    result = 1
+    base %= modulus
+    while exponent > 0:
+        if exponent % 2 == 1:
+            result = (result * base) % modulus
+        exponent = exponent >> 1
+        base = (base * base) % modulus
+    return result
 
 def rsa_encrypt(plaintext, e, n):
     ciphertext = []
